@@ -51,29 +51,29 @@ Vue + SpringBoot
 
 ## SpringBoot集成Swagger
 
-1、新建一个Spring Boot项目 = web项目
+1. 新建一个Spring Boot项目 = web项目
 
-2、导入相关依赖
+2. 导入相关依赖
 
 ```xml
 
 <dependency>
-    <groupId>io.springfox</groupId>
-    <artifactId>springfox-swagger2</artifactId>
-    <version>2.9.2</version>
+  <groupId>io.springfox</groupId>
+  <artifactId>springfox-swagger2</artifactId>
+  <version>2.9.2</version>
 </dependency>
 
 <dependency>
-    <groupId>io.springfox</groupId>
-    <artifactId>springfox-swagger-ui</artifactId>
-    <version>2.9.2</version>
+  <groupId>io.springfox</groupId>
+  <artifactId>springfox-swagger-ui</artifactId>
+  <version>2.9.2</version>
 </dependency>
 
 ```
 
-3、编写一个Hello工程
+3. 编写一个Hello工程
 
-4、配置Swagger ==> Configure
+4. 配置Swagger ==> Configure
 
 ```java
 
@@ -83,7 +83,7 @@ public class SwaggerConfig {
 }
 ```
 
-5、测试运行
+5. 测试运行
 http://localhost:8080/swagger-ui.html
 
 ## 配置Swagger
@@ -93,3 +93,57 @@ Swagger的Bean实例Docket；
 ## Swagger配置扫描接口
 
 Docket.select()
+
+Docket.build()
+
+## 配置是否启动Swagger
+
+Docket.enable(true)
+
+我只希望Swagger在开发环境中使用，在生产环境中不使用
+
+- 判断是否是生产环境 flag=false
+- 注入enable(flag)
+```java
+ //配置了Swagger的Bean实例
+    @Bean
+    public Docket docket(Environment env) {
+
+        //设置显示Swagger的环境
+        Profiles profiles = Profiles.of("dev", "test");
+        //判断是否处于设定的环境
+        boolean flag = env.acceptsProfiles(profiles);
+
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                //enable()是否启动Swagger
+                .enable(flag)
+                .select()
+                //RequestHandlerSelectors,配置要扫描接口的方式
+                //basePackage指定扫描的包
+                //any()扫描全部
+                //none()不扫描
+                //withClassAnnotation扫描类上的注解，参数是一个注解的反射对象
+                //withMethodAnnotation扫描方法上的注解
+                .apis(RequestHandlerSelectors.basePackage("com.hj.swagger.controller"))
+                //过滤路径
+                //.paths(PathSelectors.ant("/hj/**"))
+                .build();//build 工厂模式
+    }
+```
+## 配置API文档分组
+
+groupName("Hello")
+
+如何配置多个分组；多个Docket实例即可
+
+实体类配置
+
+controller配置
+
+## 总结
+
+1. 我们可以通过Swagger给一些比较难理解的属性或者接口增加注释信息
+2. 接口文档实时更新
+3. 可以在线测试
+4. 【注意点】在正式发布的时候关闭Swagger!!!出于安全考虑，而且节省运行的内存
