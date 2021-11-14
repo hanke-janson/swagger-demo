@@ -147,3 +147,16 @@ controller配置
 2. 接口文档实时更新
 3. 可以在线测试
 4. 【注意点】在正式发布的时候关闭Swagger!!!出于安全考虑，而且节省运行的内存
+
+# knife4j(Swagger增强工具)
+
+添加依赖
+```xml
+<dependency>
+    <groupId>com.github.xiaoymin</groupId>
+    <artifactId>knife4j-spring-boot-starter</artifactId>
+    <version>2.0.9</version>
+</dependency>
+```
+访问
+http://localhost:8080/doc.html

@@ -19,19 +19,22 @@ import java.util.ArrayList;
 @EnableSwagger2//开启Swagger2
 public class SwaggerConfig {
     @Bean
-    public Docket docket1(){
+    public Docket docket1() {
         return new Docket(DocumentationType.SWAGGER_2).groupName("A");
     }
+
     @Bean
-    public Docket docket2(){
+    public Docket docket2() {
         return new Docket(DocumentationType.SWAGGER_2).groupName("B");
     }
+
     @Bean
-    public Docket docket3(){
+    public Docket docket3() {
         return new Docket(DocumentationType.SWAGGER_2).groupName("C");
     }
+
     @Bean
-    public Docket docket4(){
+    public Docket docket4() {
         return new Docket(DocumentationType.SWAGGER_2).groupName("D");
     }
 
@@ -62,6 +65,7 @@ public class SwaggerConfig {
                 //.paths(PathSelectors.ant("/hj/**"))
                 .build();//build 工厂模式
     }
+
     //配置Swagger信息ApiInfo
     public ApiInfo apiInfo() {
         //作者信息
@@ -69,7 +73,7 @@ public class SwaggerConfig {
 
         return new ApiInfo(
                 "Swagger API文档",
-                "Swagger API测试日志",
+                "Swagger RestFul APIs",
                 "v1.0",
                 "https://github.com/hanke-janson",
                 contact,
